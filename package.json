@@ -1,0 +1,37 @@
+{
+  "name": "felv",
+  "description": "Simple easy and light JavaScript validator.",
+  "version": "0.0.0",
+  "author": "Thomas Prelot <tprelot@gmail.com> (https://github.com/Gnucki)",
+  "contributors": [],
+  "keywords": [
+    "gnodi",
+    "lib",
+    "felv"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@gnodi/eslint-config": "^0.2.0",
+    "coveralls": "^2.11.15",
+    "jasmine": "^2.5.2",
+    "nyc": "^10.1.2"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gnodi/felv"
+  },
+  "main": "index",
+  "scripts": {
+    "check": "gnodi-lint && npm run test-coverage",
+    "lint": "gnodi-lint",
+    "test": "NODE_ENV='test' jasmine test.js index.js test/unit/ lib/",
+    "test-coverage": "nyc npm test && nyc report --reporter text-summary",
+    "test-coveralls": "nyc npm test && nyc report --reporter text-lcov | coveralls"
+  },
+  "bin": {},
+  "engines": {
+    "node": ">=6",
+    "npm": ">=3"
+  }
+}
