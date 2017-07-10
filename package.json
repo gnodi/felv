@@ -14,7 +14,7 @@
     "@gnodi/eslint-config": "^0.2.0",
     "coveralls": "^2.11.15",
     "jasmine": "^2.5.2",
-    "nyc": "^10.1.2"
+    "nyc": "^11.0.3"
   },
   "license": "MIT",
   "repository": {
