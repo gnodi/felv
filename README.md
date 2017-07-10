@@ -9,18 +9,18 @@ Fast easy and light JavaScript validator.
 [![Dependencies][dependencies-image]][dependencies-url]
 [![Dev Dependencies][dev-dependencies-image]][dev-dependencies-url]
 
-## Installation
+## Installation
 Run the following command to add the package to your dev dependencies:
 ```sh
 $ npm install --save felv
 ```
 
-## Use
+## Use
 ```js
 const felv = require('felv');
 ```
 
-### Example
+### Example
 ```js
 const schema = {
   // Value of 'a' key is required and must be a number.
@@ -56,22 +56,25 @@ const schema = {
   d: {
     type: Object,
     items: {
-      type: 'string
+      type: 'string'
     }
   }
 };
 
-const validatedValue = elv.validate({
-  a: 1,
-  b: [2, 'foo', 4],
-  c: {
-    i: false
+const validatedValue = elv.validate(
+  {
+    a: 1,
+    b: [2, 'foo', 4],
+    c: {
+      i: false
+    },
+    d: {
+      x: 'foo',
+      y: 'bar'
+    }
   },
-  d: {
-    x: 'foo',
-    y: 'bar'
-  }
-}, schema);
+  schema
+);
 ```
 
 `validatedValue` is equal to:
@@ -169,7 +172,7 @@ Validated value:
 }
 ```
 
-##### Required
+##### Required
 You can specify a required value:
 ```js
 {
@@ -190,7 +193,7 @@ Matching value:
 }
 ```
 
-##### Items
+##### Items
 You can specify embedded items of arrays and objects:
 ```js
 {
@@ -217,7 +220,7 @@ Matching value:
 }
 ```
 
-##### Properties
+##### Properties
 You can specify properties of objects:
 ```js
 {
@@ -325,7 +328,7 @@ const schema = {
   foo: {
     type: 'number',
     required: true,
-    error: 'You must specify a number for "foo"'.
+    error: 'You must specify a number for "foo"'
   }
 };
 
@@ -395,7 +398,7 @@ const validatedValue = await felv.validate({foo: 3, bar: 4}, asyncSchema);
 ```
 
 #### Validation processors dependencies
-For simplicity, each validation processor is independent from each others.
+For simplicity, validation processors are independent from each other.
 
 #### Validation processors order
 Validation processors are processed in a specific order:
@@ -408,7 +411,7 @@ Validation processors are processed in a specific order:
 - validate
 - error
 
-### Options
+### Options
 #### Immutable
 Whether or not to use the original value for validated value.
 This increase performances but must not be used for cases where the original value must be preserved.
@@ -441,7 +444,7 @@ Default value:
 ```
 
 #### Async
-Whether or not to force a Promise result even on synchronous return.
+Whether or not to force a `Promise` result even on synchronous return.
 
 Default value:
 ```js
