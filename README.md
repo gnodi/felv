@@ -1,5 +1,7 @@
 # felv
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/gnodi/felv.svg)](https://greenkeeper.io/)
+
 Fast easy and light JavaScript validator.
 
 [![Build][build-image]][build-url]
