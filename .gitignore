@@ -50,3 +50,6 @@ node_modules
 
 # Sauce Labs credentials
 sauce.json
+
+# Lock file
+package-lock.json
