@@ -1,17 +1,25 @@
 {
   "name": "felv",
-  "description": "Simple easy and light JavaScript validator.",
+  "description": "Fast easy and light JavaScript validator.",
   "version": "0.0.0",
   "author": "Thomas Prelot <tprelot@gmail.com> (https://github.com/Gnucki)",
   "contributors": [],
   "keywords": [
     "gnodi",
     "lib",
-    "felv"
+    "felv",
+    "fast",
+    "easy",
+    "simple",
+    "light",
+    "js",
+    "javascript",
+    "object",
+    "validator"
   ],
   "dependencies": {},
   "devDependencies": {
-    "@gnodi/eslint-config": "^0.2.0",
+    "@gnodi/eslint-config": "^0.3.0",
     "coveralls": "^2.11.15",
     "jasmine": "^2.5.2",
     "nyc": "^11.0.3"
@@ -31,7 +39,7 @@
   },
   "bin": {},
   "engines": {
-    "node": ">=6",
-    "npm": ">=3"
+    "node": ">=8",
+    "npm": ">=5"
   }
 }
