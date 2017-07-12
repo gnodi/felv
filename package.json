@@ -20,8 +20,10 @@
   "dependencies": {},
   "devDependencies": {
     "@gnodi/eslint-config": "^0.3.0",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
     "coveralls": "^2.11.15",
-    "jasmine": "^2.5.2",
+    "mocha": "^3.4.2",
     "nyc": "^11.0.3"
   },
   "license": "MIT",
@@ -33,9 +35,11 @@
   "scripts": {
     "check": "gnodi-lint && npm run test-coverage",
     "lint": "gnodi-lint",
-    "test": "NODE_ENV='test' jasmine test.js index.js test/unit/ lib/",
+    "test": "NODE_ENV='test' mocha --recursive index.js test/unit/ src/",
     "test-coverage": "nyc npm test && nyc report --reporter text-summary",
-    "test-coveralls": "nyc npm test && nyc report --reporter text-lcov | coveralls"
+    "test-coveralls": "nyc npm test && nyc report --reporter text-lcov | coveralls",
+    "test-full": "NODE_ENV='test' mocha --recursive --full-trace --check-leaks index.js test/unit/ src/",
+    "test-watch": "NODE_ENV='test' mocha -w --recursive index.js test/unit/ src/"
   },
   "bin": {},
   "engines": {
