@@ -39,6 +39,7 @@
     "test-coverage": "nyc npm test && nyc report --reporter text-summary",
     "test-coveralls": "nyc npm test && nyc report --reporter text-lcov | coveralls",
     "test-debug": "NODE_ENV='test' mocha --recursive --full-trace --check-leaks test/unit/ src/",
+    "test-integration": "NODE_ENV='test' mocha --recursive test/integration/",
     "test-watch": "NODE_ENV='test' mocha -w -b --recursive test/unit/ test/integration/ test/fixtures/ index.js"
   },
   "bin": {},
