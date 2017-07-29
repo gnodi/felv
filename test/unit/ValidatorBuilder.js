@@ -8,11 +8,11 @@ class Validator {}
 
 describe('ValidatorBuilder', () => {
   describe('"classConstructor" setter', () => {
-    it('shoud accept a function', () => {
+    it('should accept a function', () => {
       builder.classConstructor = value => value;
     });
 
-    it('shoud only accept a function', () => {
+    it('should only accept a function', () => {
       expect(() => { builder.classConstructor = 'foo'; }).to.throw(TypeError);
     });
   });
@@ -22,11 +22,11 @@ describe('ValidatorBuilder', () => {
       builder.classConstructor = Validator;
     });
 
-    it('shoud return an instance of classContructor', () => {
+    it('should return an instance of classContructor', () => {
       expect(builder.build()).to.be.an.instanceof(Validator);
     });
 
-    it('shoud pass first argument to validator validationFunction', () => {
+    it('should pass first argument to validator validationFunction', () => {
       expect(builder.build(2)).to.have.property('validationFunction', 2);
     });
   });

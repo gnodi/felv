@@ -7,28 +7,28 @@ const validator = new Validator();
 
 describe('Validator', () => {
   describe('"validationFunction" setter', () => {
-    it('shoud accept a function', () => {
+    it('should accept a function', () => {
       validator.validationFunction = value => value;
     });
 
-    it('shoud only accept a function', () => {
+    it('should only accept a function', () => {
       expect(() => { validator.validationFunction = 'foo'; }).to.throw(TypeError);
     });
   });
 
   describe('"validate" method', () => {
-    it('shoud return value validated by a validation function', () => {
+    it('should return value validated by a validation function', () => {
       validator.validationFunction = value => value >= 1;
       expect(validator.validate(0)).to.equal(false);
       expect(validator.validate(1)).to.equal(true);
     });
 
-    it('shoud forward thrown exceptions', () => {
+    it('should forward thrown error', () => {
       validator.validationFunction = (value) => { throw new Error(value); };
       expect(() => validator.validate('foo')).to.throw('foo');
     });
 
-    it('shoud handle asynchronous validation function', () => {
+    it('should handle asynchronous validation function', () => {
       validator.validationFunction = value => new Promise((resolve) => {
         setTimeout(() => {
           resolve(value * 2);
