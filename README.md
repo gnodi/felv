@@ -1,6 +1,10 @@
 # felv
 
-Fast easy and light JavaScript validator.
+**felv** is a fast easy and light (synchronous and asynchronous) JavaScript validator.
+
+- Take only **2 minutes** to know if felv is made for you.
+- Take only **5 minutes** to try it.
+- Take only **15 minutes** to read this page and learn everything you need to know!
 
 [![Build][build-image]][build-url]
 [![Coverage Status][coverage-image]][coverage-url]
@@ -25,8 +29,8 @@ const felv = require('felv');
 const schema = {
   // Value of 'a' key is required and must be a number.
   a: {
-    type: 'number',
-    required: true
+    required: true,
+    type: 'number'
   },
   // Value of 'b' key is an array of numbers and strings.
   b: {
@@ -42,12 +46,12 @@ const schema = {
     type: Object,
     properties: {
       i: {
-        type: 'boolean',
-        default: true
+        default: true,
+        type: 'boolean'
       },
       j: {
-        type: 'boolean',
-        default: true
+        default: true,
+        type: 'boolean'
       }
     }
   },
@@ -61,7 +65,7 @@ const schema = {
   }
 };
 
-const validatedValue = elv.validate(
+const validatedValue = felv.validate(
   {
     a: 1,
     b: [2, 'foo', 4],
@@ -101,7 +105,7 @@ const validatedValue = felv.validate(value, schema, options);
 ```
 
 #### From a compiled schema
-For repetitive validations, you should compile a validator to optimize validation performances:
+For repetitive validations, you should compile a validator to optimize validation performances. This can also be useful to detect schema format errors before validation occurs.
 ```js
 const validator = felv.compile(schema, options);
 const validatedValue = validator.validate(value);
@@ -122,7 +126,7 @@ You can check the type of the value of a key:
     type: Date
   },
   foobar: {
-    type: ['number', 'string']
+    type: ['number', 'string'] // number or string items
   }
 }
 ```
@@ -147,11 +151,10 @@ You can specify a default value:
 ```js
 {
   foo: {
+    default: 3,
     type: 'number'
-    default: 3
   },
   bar: {
-    type: 'number'
     default: 6
   }
 }
@@ -177,8 +180,8 @@ You can specify a required value:
 ```js
 {
   foo: {
-    type: 'number',
-    required: true
+    required: true,
+    type: 'number'
   },
   bar: {
     type: 'number'
@@ -228,12 +231,12 @@ You can specify properties of objects:
     type: Object,
     properties: {
       a: {
-        type: 'number',
-        require: true
+        required: true,
+        type: 'number'
       },
       b: {
-        type: 'string',
-        default: 'bar'
+        default: 'bar',
+        type: 'string'
       }
     }
   }
@@ -259,9 +262,7 @@ You can give a function to format input values:
 ```js
 {
   foo: {
-    format: (value) => {
-      return Array.isArray(value) ? value : [value];
-    },
+    format: value => (Array.isArray(value) ? value : [value]),
     type: Array,
     items: {
       type: 'string'
@@ -290,17 +291,18 @@ You can give a function to make custom validations and format output values:
 {
   foo: {
     type: 'number',
-    validate: (value) => {
+    validate: (value, expected) => {
       if (value < 1 || value > 9) {
-        throw new Error('must be a number between 1 and 9');
+        // Throw a validation error.
+        expected('a number between 1 and 9');
       }
+      return value;
     }
   },
   bar: {
     type: 'number',
-    validate: (value) => {
-      return value > 1 ? value * 10 : value;
-    }
+    // Alter validated value.
+    validate: value => (value > 1 ? value * 10 : value)
   }
 }
 ```
@@ -322,12 +324,12 @@ Validated value:
 ```
 
 ##### Error
-You can specify an error message that will be used on error occurrence:
+You can specify a custom error message that will be set on error occurrence:
 ```js
 const schema = {
   foo: {
-    type: 'number',
     required: true,
+    type: 'number',
     error: 'You must specify a number for "foo"'
   }
 };
@@ -335,7 +337,7 @@ const schema = {
 try {
   felv.validate({foo: 'bar'}, schema);
 } catch(error) {
-  console.log(error.message); // Display `You must specify a number for "foo"`.
+  console.log(error.customMessage); // Display `You must specify a number for "foo"`.
 }
 ```
 
@@ -345,12 +347,12 @@ You can specify different validation ways givin an array of schemas:
 {
   foo: [
     {
-      type: 'number',
-      required: true
+      required: true,
+      type: 'number'
     },
     {
-      type: 'string',
-      default: 'bar'
+      default: 'bar',
+      type: 'string'
     }
   ]
 }
@@ -402,46 +404,26 @@ For simplicity, validation processors are independent from each other.
 
 #### Validation processors order
 Validation processors are processed in a specific order:
-- format
-- default
-- required
-- type
-- items
-- properties
-- validate
-- error
+1. format
+2. default
+3. required
+4. type
+5. items
+6. properties
+7. validate
+8. error
 
 ### Options
-#### Immutable
-Whether or not to use the original value for validated value.
-This increase performances but must not be used for cases where the original value must be preserved.
-
-Default value:
-```js
-{
-  immutable: false
-}
-```
-
-#### Convert
-Whether or not to automatically convert some value types (string to number, number to boolean, ...).
-
-Default value:
-```js
-{
-  convert: true
-}
-```
-
-#### Full
-Whether or not to process full validation event after a first error occurred.
-
-Default value:
-```js
-{
-  full: false
-}
-```
+You can modulate validation with following options:
+- async
+- convert
+- formatting
+- full
+- immutable
+- list
+- namespace
+- required
+- validation
 
 #### Async
 Whether or not to force a `Promise` result even on synchronous return.
@@ -453,22 +435,32 @@ Default value:
 }
 ```
 
-#### Handle error
-An error handler allowing to customize your error handling.
+#### Convert
+Whether or not to automatically convert some value types.
 
 Default value:
 ```js
 {
-  handleError: (error) => {
-    // Handle errors for "full" validation.
-    if (error.errors) {
-      throw new Error(error.errors.map(({message}) => message).join('; '));
-    }
-
-    throw new Error(`expected ${error.expected} for '${error.path}'; got ${error.got}`);
-  }
+  convert: true
 }
 ```
+
+string => boolean:
+- `"false"` => `false`
+- `"true"` => `true`
+- `"0"` => `false`
+- `"1"` => `true`
+
+number => boolean:
+- `0` => `false`
+- `>0` => `true`
+
+string => number:
+`"100"` => `100`
+
+boolean => number:
+`false` => `0`
+`true` => `1`
 
 #### Formatting
 A validation object to be passed as second argument (`options`) in `format` validation processors:
@@ -489,17 +481,73 @@ Default value:
 }
 ```
 
+#### Full
+Whether or not to process full validation event after a first error occurred.
+
+Default value:
+```js
+{
+  full: false
+}
+```
+
+#### Immutable
+Whether or not to use the original value for validated value.
+This increase performances but must not be used for cases where the original value must be preserved.
+
+Default value:
+```js
+{
+  immutable: false
+}
+```
+
+#### List
+Whether or not to process schema on a list of items (array or object) instead of an object with defined properties.
+
+Default value:
+```js
+{
+  list: false
+}
+```
+
+#### Namespace
+A namespace to prefix paths in error messages.
+
+Default value:
+```js
+{
+  namespace: '$'
+}
+```
+
+#### Required
+Whether or not fields are required by default.
+
+Default value:
+```js
+{
+  required: false
+}
+```
+
 #### Validation
-A validation object to be passed as second argument (`options`) in `validate` validation processors:
+A validation object to be passed as third argument (`options`) in `validate` validation processors:
 ```js
 {
   foo: {
-    validate: (value, options) => {
-      // Validate value from options.
+    validate: (value, expected, options) => {
+      // Validate 'value' from 'options'.
+      // Throw validation error with 'expected'.
     }
   }
 }
 ```
+> `expected` function take 3 arguments:
+> - `{string} expectedType`: Expected type (or value description)
+> - `{Array.<*>} [expectedValues]`: Optional expected values
+> - `{string} [customMessage]`: Optional custom error message
 
 Default value:
 ```js
@@ -508,7 +556,148 @@ Default value:
 }
 ```
 
-## LICENSE
+### Error handling
+#### Simple example
+```js
+const validator = felv.compile({foo: {type: 'string'}});
+try {
+  const validatedValue = validator.validate({foo: 3});
+} catch (error) {
+  // Error type: 'ValidationError'
+  console.log(error.name);
+  // Explicit message: '[$.foo](type) Expected value to be a string, got a number of value `3` instead'
+  console.log(error.message);
+  // Path of the failing value: '$.foo'
+  console.log(error.path);
+  // Failing schema attribute/validation processor: 'type'
+  console.log(error.attribute);
+  // Subject of failure: 'value'
+  console.log(error.subject);
+  // Expected type: 'string'
+  console.log(error.expectedType);
+  // Expected values: []
+  console.log(error.expectedValues);
+  // Got(gotten) type: 'number'
+  console.log(error.gotValue);
+  // Got(gotten) value: 3
+  console.log(error.gotValue);
+  // Custom message (not defined here): ''
+  console.log(error.customMessage);
+}
+```
+
+#### Full validation example
+You can process full validation to retrieve all validation errors of a value against a schema.
+This can be useful to validate a user form and return all errors for instance:
+```js
+// Compile form schema at program initialization.
+const schema = {
+  firstname: {
+    required: true,
+    type: 'string',
+    // Define custom error message of occuring validation error.
+    error: 'Firstname must be filled'
+  },
+  lastname: {
+    required: true,
+    type: 'string'
+  },
+  email: {
+    required: true,
+    type: 'string',
+    validate: (value, expected) => {
+      if (!/@/.test(value)) {
+        // Define custom error message with third argument
+        // of expected function.
+        expected('email', null, 'Email is incorrect');
+      }
+      return value;
+    },
+    // `error` attribute does not overwrite already defined custom message
+    // like 'Email is incorrect' in above validate attribute function.
+    error: 'Email must be filled'
+  },
+  password: {
+    required: true,
+    type: 'string',
+    validate: (value, expected) => {
+      if (value.length < 8) {
+        expected('a string of at least 8 character');
+      } else if (!/[A-Z]/.test(value)) {
+        expected('a string with at least one uppercase letter');
+      }
+      return value;
+    },
+    error: 'Password must at least contains 8 characters with at least one uppercase letter'
+  }
+};
+const options = {
+  namespace: 'form',
+  full: true
+};
+const validator = felv.compile(schema, options);
+```
+
+```js
+// Use compiled validator to validate user input on user subscription.
+// We assume `req.body` equals `{email: 'dumb', password: 'dumb'}`
+try {
+  const validatedValue = validator.validate({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.email
+  });
+  // Do stuff like persisting user in database...
+} catch (error) {
+  // Error type: 'FullValidationError'
+  console.log(error.name);
+  // Use `error.pathErrorMessages` to get validation error messages associated with failing paths.
+  assert.deepEqual(error.pathErrorMessages, {
+    'form.firstname': 'Firstname must be filled',
+    'form.lastname': '[form.lastname](required) Expected value to be a defined value, got `undefined` instead',
+    'form.email': 'Email is incorrect',
+    'form.password': 'Password must at least contains 8 characters with at least one uppercase letter'
+  });
+  // Use `error.pathErrors` to get the validation errors instead of messages.
+  // Use `error.errorMessages` to get validation error message list.
+  assert.deepEqual(error.errorMessages, [
+    'Email is incorrect',
+    'Firstname must be filled',
+    'Password must at least contains 8 characters with at least one uppercase letter',
+    '[form.lastname](required) Expected value to be a defined value, got `undefined` instead'
+  ]);
+  // Use `error.errors` to get the validation errors instead of messages.
+}
+```
+
+### Testing
+Many `npm` scripts are available to help testing:
+```sh
+$ npm run {script}
+```
+- `check`: lint and check unit and integration tests
+- `lint`: lint
+- `test`: check unit tests
+- `test-coverage`: check coverage of unit tests
+- `test-debug`: debug unit tests
+- `test-integration`: check integration tests
+- `test-performance`: check performance (just for fun)
+- `test-watch`: work in TDD!
+
+Use `npm run check` to check that everything is ok.
+
+## Contributing
+If you want to contribute, just fork this repository and make a pull request!
+
+Your development must respect these rules:
+- fast
+- easy
+- light
+
+You must keep test coverage at 100%.
+
+## License
 [MIT](LICENSE)
 
 [build-image]: https://img.shields.io/travis/gnodi/felv.svg?style=flat
