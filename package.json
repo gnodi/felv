@@ -33,13 +33,13 @@
   },
   "main": "index",
   "scripts": {
-    "check": "gnodi-lint && npm run test-coverage",
+    "check": "gnodi-lint && npm run test-coverage && npm run test-integration",
     "lint": "gnodi-lint",
-    "test": "NODE_ENV='test' mocha --recursive index.js test/unit/ src/",
+    "test": "NODE_ENV='test' mocha --recursive test/unit/ src/",
     "test-coverage": "nyc npm test && nyc report --reporter text-summary",
     "test-coveralls": "nyc npm test && nyc report --reporter text-lcov | coveralls",
-    "test-full": "NODE_ENV='test' mocha --recursive --full-trace --check-leaks index.js test/unit/ src/",
-    "test-watch": "NODE_ENV='test' mocha -w --recursive index.js test/unit/ src/"
+    "test-debug": "NODE_ENV='test' mocha --recursive --full-trace --check-leaks test/unit/ src/",
+    "test-watch": "NODE_ENV='test' mocha -w -b --recursive test/unit/ test/integration/ test/fixtures/ index.js"
   },
   "bin": {},
   "engines": {
