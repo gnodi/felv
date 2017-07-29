@@ -445,22 +445,19 @@ Default value:
 }
 ```
 
-string => boolean:
-- `"false"` => `false`
-- `"true"` => `true`
-- `"0"` => `false`
-- `"1"` => `true`
-
-number => boolean:
-- `0` => `false`
-- `>0` => `true`
-
-string => number:
-`"100"` => `100`
-
-boolean => number:
-`false` => `0`
-`true` => `1`
+- `string` => `boolean`:
+  * `"false"` => `false`
+  * `"true"` => `true`
+  * `"0"` => `false`
+  * `"1"` => `true`
+- `number` => `boolean`:
+  * `0` => `false`
+  * `!== 0` => `true`
+- `string` => `number`:
+  * `"100"` => `100`
+- `boolean` => `number`:
+  * `false` => `0`
+  * `true` => `1`
 
 #### Formatting
 A validation object to be passed as second argument (`options`) in `format` validation processors:
