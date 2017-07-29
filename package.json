@@ -12,10 +12,17 @@
     "easy",
     "simple",
     "light",
+    "synchronous",
+    "asynchronous",
+    "async",
     "js",
     "javascript",
+    "json",
     "object",
-    "validator"
+    "array",
+    "type",
+    "validator",
+    "schema"
   ],
   "dependencies": {},
   "devDependencies": {
@@ -45,7 +52,7 @@
   },
   "bin": {},
   "engines": {
-    "node": ">=8",
-    "npm": ">=5"
+    "node": ">=6",
+    "npm": ">=3"
   }
 }
