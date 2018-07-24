@@ -1,7 +1,7 @@
 {
   "name": "felv",
   "description": "Fast easy and light JavaScript validator.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Thomas Prelot <tprelot@gmail.com> (https://github.com/Gnucki)",
   "contributors": [],
   "keywords": [
