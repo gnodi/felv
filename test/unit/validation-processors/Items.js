@@ -89,5 +89,21 @@ describe('ItemsValidationProcessor', () => {
         options: {immutable: false, list: true}
       });
     });
+
+    it('should return a validation function allowing optional (null) values', () => {
+      const validate = processor.process(
+        {type: 'number'},
+        {immutable: false}
+      );
+      expect(validate(null)).to.deep.equal(null);
+    });
+
+    it('should return a validation function allowing optional (undefined) values', () => {
+      const validate = processor.process(
+        {type: 'number'},
+        {immutable: false}
+      );
+      expect(validate(undefined)).to.deep.equal(undefined);
+    });
   });
 });

@@ -18,9 +18,17 @@ module.exports = class ItemsValidationProcessor extends Abstract {
 
   /** @inheritdoc */
   process(attributeValue, options) {
-    return this[super.constructor.processingMediator].process(
+    const validate = this[super.constructor.processingMediator].process(
       attributeValue,
       Object.assign({}, options, {list: true})
     );
+
+    return (value) => {
+      // Allow optional value.
+      if (value === null || value === undefined) {
+        return value;
+      }
+      return validate(value);
+    };
   }
 };

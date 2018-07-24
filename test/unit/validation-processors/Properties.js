@@ -81,5 +81,21 @@ describe('PropertiesValidationProcessor', () => {
         options: {immutable: false, list: false}
       });
     });
+
+    it('should return a validation function allowing optional (null) values', () => {
+      const validate = processor.process(
+        {foo: {type: 'number'}},
+        {immutable: false}
+      );
+      expect(validate(null)).to.deep.equal(null);
+    });
+
+    it('should return a validation function allowing optional (undefined) values', () => {
+      const validate = processor.process(
+        {foo: {type: 'number'}},
+        {immutable: false}
+      );
+      expect(validate(undefined)).to.deep.equal(undefined);
+    });
   });
 });

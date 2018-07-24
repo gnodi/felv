@@ -255,6 +255,45 @@ describe('Validation', () => {
     }
   });
 
+  it('should handle optional parent object', () => {
+    const value = {};
+    const validatedValue = felv.validate(
+      value,
+      {
+        interface: {
+          type: 'object',
+          required: false,
+          properties: {
+            methods: {
+              type: Array,
+              items: {
+                type: 'string'
+              },
+              default: []
+            },
+            getters: {
+              type: Array,
+              items: {
+                type: 'string'
+              },
+              default: []
+            },
+            setters: {
+              type: Array,
+              items: {
+                type: 'string'
+              },
+              default: []
+            }
+          }
+        }
+      },
+      {required: true}
+    );
+
+    expect(validatedValue).to.deep.equal(value);
+  });
+
   it('should validate README example', () => {
     const value = {
       a: 1,
