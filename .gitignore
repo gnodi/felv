@@ -53,3 +53,7 @@ sauce.json
 
 # Lock file
 package-lock.json
+
+# Stryker temp files
+.stryker-tmp
+reports
